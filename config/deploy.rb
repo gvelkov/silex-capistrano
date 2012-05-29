@@ -31,19 +31,24 @@ end
 
 namespace :myproject do
 
-    task :uploads, :roles => :app do
-        run "mkdir -p #{shared_path}/public/uploads"
-        run "chmod -R 775 #{shared_path}/public/uploads"
-        run "ln -nfs #{shared_path}/public/uploads #{release_path}/public/uploads"
+    task :vendors :do
+        run "curl -s http://getcomposer.org/installer | php --install-dir=#{release_path}"
+        run "#{release_path}/composer.phar install"
+    end
+
+    task :uploads do
+        run "mkdir -p #{shared_path}/web/uploads"
+        run "chmod -R 775 #{shared_path}/web/uploads"
+        run "ln -nfs #{shared_path}/web/uploads #{release_path}/web/uploads"
     end
 
     task :disable do
-        run "echo 'Site is on maintenance right now. Sorry.' > #{shared_path}/public/maintenance.html"
-        run "cp #{shared_path}/public/maintenance.html #{latest_release}/public/maintenance.html"
+        run "echo 'Site is on maintenance right now. Sorry.' > #{shared_path}/web/maintenance.html"
+        run "cp #{shared_path}/web/maintenance.html #{latest_release}/web/maintenance.html"
     end
 
     task :enable do
-        run "rm -f #{latest_release}/public/maintenance.html"
+        run "rm -f #{latest_release}/web/maintenance.html"
     end
 
 end
