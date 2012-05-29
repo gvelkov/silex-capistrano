@@ -28,3 +28,25 @@ namespace :deploy do
     end
 
 end
+
+namespace :myproject do
+
+    task :uploads, :roles => :app do
+        run "mkdir -p #{shared_path}/public/uploads"
+        run "chmod -R 775 #{shared_path}/public/uploads"
+        run "ln -nfs #{shared_path}/public/uploads #{release_path}/public/uploads"
+    end
+
+    task :disable do
+        run "echo 'Site is on maintenance right now. Sorry.' > #{shared_path}/public/maintenance.html"
+        run "cp #{shared_path}/public/maintenance.html #{latest_release}/public/maintenance.html"
+    end
+
+    task :enable do
+        run "rm -f #{latest_release}/public/maintenance.html"
+    end
+
+end
+
+after "deploy:update_code", "myproject:disable"
+after "deploy:symlink", "myproject:uploads", "myproject:enable"
