@@ -31,9 +31,9 @@ end
 
 namespace :myproject do
 
-    task :vendors :do
-        run "curl -s http://getcomposer.org/installer | php --install-dir=#{release_path}"
-        run "#{release_path}/composer.phar install"
+    task :vendors do
+        run "curl -s http://getcomposer.org/installer | php -- --install-dir=#{release_path}"
+        run "cd #{release_path} && #{release_path}/composer.phar install"
     end
 
     task :uploads do
@@ -43,6 +43,7 @@ namespace :myproject do
     end
 
     task :disable do
+        run "mkdir -p #{shared_path}/web"
         run "echo 'Site is on maintenance right now. Sorry.' > #{shared_path}/web/maintenance.html"
         run "cp #{shared_path}/web/maintenance.html #{latest_release}/web/maintenance.html"
     end
@@ -53,5 +54,5 @@ namespace :myproject do
 
 end
 
-after "deploy:update_code", "myproject:disable"
+after "deploy:update_code", "myproject:disable", "myproject:vendors"
 after "deploy:symlink", "myproject:uploads", "myproject:enable"
