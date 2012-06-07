@@ -1,4 +1,10 @@
 <IfModule mod_rewrite.c>
+    # Redirect all requests to the maintenance page if present
+    RewriteCond %{REQUEST_URI} !\.(css|gif|jpg|png)$
+    RewriteCond %{DOCUMENT_ROOT}/maintenance.html -f
+    RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+    RewriteRule ^.*$ maintenance.html [L]
+
     Options -MultiViews
 
     RewriteEngine On
