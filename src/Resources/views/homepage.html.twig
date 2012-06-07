@@ -1,0 +1,35 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="span8">
+
+            <div class="page-header">
+                <h2>Last projects</h2>
+            </div>
+
+            {% include 'Project/_list.html.twig' with { "projects": lastProjects } only %}
+
+            <div class="page-header">
+                <h2>Recently added projects</h2>
+            </div>
+
+            {% include 'Project/_list.html.twig' with { "projects": projects } only %}
+        </div>
+
+        <div class="span8">
+            <div class="page-header"><h2>Last comments</h2></div>
+
+            {% for comment in comments %}
+            <h3>By {{ comment.username | username }} <small> in <a href="{{ path('project_show', { 'id': comment.project_id }) }}#comment-{{ comment.id }}">{{ comment.project_name }}</a> on {{ comment.created_at | date('D, d M — H:i') }}</small></h3>
+
+            <div>
+                <img src="{{ gravatar(comment.username) }}" class="gravatar" />
+                {{ comment.content_html | raw }}
+            </div>
+
+            <div class="clear"></div>
+            {% endfor %}
+        </div>
+
+{% endblock %}

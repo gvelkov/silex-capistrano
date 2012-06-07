@@ -1,9 +1,4 @@
 <?php
-require_once __DIR__.'/../vendor/autoload.php';
 
-$app = new Silex\Application();
-$app['debug'] = true;
-
-// definitions
-//
+$app = require_once __DIR__.'/../app/marketplace.php';
 $app->run();

@@ -1,0 +1,18 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Create a new project</h1>
+</div>
+
+<form method="post" action="{{ path('project_create') }}">
+  
+  {% include "Project/_form.html.twig" %}
+
+  <div class="actions">
+    <button class="btn primary">Create project</button>
+    <a class="btn" href="{{ path('homepage') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

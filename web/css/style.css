@@ -1,0 +1,59 @@
+body {
+    padding-top: 100px;
+}
+
+div.right-actions {
+    background: #f5f5f5;
+    margin-left: 18px;
+    margin-right: 18px;
+    padding: 18px 150px 17px 20px;
+    border-left: 1px solid #ddd;
+    -webkit-border-radius: 0 3px 3px 0;
+    -moz-border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
+}
+
+div.block-message ul {
+    margin-bottom: 0px;
+}
+
+a.warning {
+    color: red;
+}
+
+blockquote {
+    border-width: 0;
+}
+
+img.gravatar {
+    border: 1px solid black;
+    float: left;
+    margin: 0 1em 1em 0;
+}
+
+div.clear {
+    clear: both;
+}
+
+input {
+    height: auto !important;
+}
+
+.modal form {
+    margin: 0;
+}
+
+.comment_content {
+    margin-left: 60px;
+}
+
+.comment_form fieldset {
+    clear:left;
+}
+
+.preview_tabs, .comment_preview_block {
+    display: none;
+}
+.comment_preview_block.active {
+    display: block;
+}

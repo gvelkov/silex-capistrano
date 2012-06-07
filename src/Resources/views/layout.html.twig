@@ -1,0 +1,59 @@
+<html>
+<head>
+    <link href="{{ app.request.basePath }}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ app.request.basePath }}/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ app.request.basePath }}/js/bootstrap/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="{{ app.request.basePath }}/js/bootstrap/bootstrap-twipsy.js"></script>
+    <script type="text/javascript" src="{{ app.request.basePath }}/js/bootstrap/bootstrap-modal.js"></script>
+    <script type="text/javascript" src="{{ app.request.basePath }}/js/bootstrap/bootstrap-tabs.js"></script>
+    <script type="text/javascript" src="{{ app.request.basePath }}/js/marketplace.js"></script>
+    <title>Idea Marketplace</title>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $('img[rel=twipsy]').twipsy({
+        'placement': 'below'
+      });
+    });
+    </script>
+</head>
+<body>
+
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container">
+          <h3><a href="{{ path('homepage') }}">Idea Marketplace</a></h3>
+          <ul class="nav">
+            <li data-dropdown="dropdown">
+              <a href="#" class="dropdown-toggle" name="username">Categories</a>
+              <ul class="dropdown-menu">
+              {% for slug, label in categories %}
+                <li><a href="{{ path('category_show', { "slug": slug }) }}">{{ label }}</a></li>
+              {% endfor %}
+              </ul>
+            </li>
+            <li><a href="{{ path('project_new') }}">New project</a></li>
+          </ul>
+          <ul class="nav secondary-nav">
+            <li data-dropdown="dropdown">
+              <a href="#" class="dropdown-toggle" name="username">{{ username }}</a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ path('logout') }}">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {% if migration_infos is defined %}
+        {% include "_migration_infos.html.twig" %}
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+            <h2 id="comments">
+                Comments
+                {% if comments|length %}
+                <small>{{ comments|length }} of them</small>
+                {% endif %}
+            </h2>
+
+            {% if skipped_comments > 0 %}
+            <div class="alert-message warning">
+                <p>Skipped {{ skipped_comments }} comment{% if skipped_comments > 1 %}s{% endif %} (<a href="{{ path('project_show', { 'id': project.id, 'allComments': true }) }}#comments">view all comments</a>)</p>
+            </div>
+            {% endif %}
+
+            {% for key, comment in comments %}
+                <h3 id="comment-{{ comment.id }}">
+                    <small><a href="{{ path('project_show', { 'id': project.id, 'allComments': true }) }}#comment-{{ comment.id }}">#{{ skipped_comments + key + 1 }}</a></small>
+                    {{ comment.username | username }}
+                    <small>on {{ comment.created_at | date('D, d M — H:i')}}</small>
+                </h3>
+
+                <div>
+                    <img src="{{ gravatar(comment.username) }}" class="gravatar" />
+                    <div class="comment_content">
+                        {{ comment.content_html | raw }}
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+                {% if comment.username == username %}
+                <form method="post" action="{{ path('comment_delete', { 'id': comment.id }) }}">
+                    <div class="actions">
+                        <button class="btn danger">Delete this comment</button>
+                    </div>
+                </form>
+                {% endif %}
+
+            {% endfor %}
+
+            <div>
+                <form method="post" action="{{ path('project_comment', { "id": project.id }) }}" class="comment_form">
+
+                    {{ form_errors(form) }}
+                    
+                    <ul class="tabs preview_tabs">
+                        <li class="active"><a href="#comment" class="write_comment_link">Comment</a></li>
+                        <li><a href="#preview" data-url="{{ path('comment_preview') }}" class="show_preview_link">Preview</a></li>
+                    </ul>
+                    
+                    <div class="tab-content">
+                        <div id="preview" class="comment_preview_block"></div>
+
+                        <div id="comment" class="active clearfix comment_preview_block">
+                            {{ form_widget(form.content, { 
+                                "attr": { 
+                                    "class": "xxlarge comment_field",
+                                    "placeholder" : "Add a comment...",
+                                    "rows": 5
+                                    }
+                                })
+                            }}
+                        </div>
+                    </div>
+
+                  {{ form_rest(form) }}
+
+                    <div class="actions">
+                        <button class="btn primary">Post comment</button>
+                    </div>
+                </form>
+            </div>
